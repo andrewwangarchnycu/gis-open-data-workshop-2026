@@ -92,3 +92,11 @@ Work through these in order — each builds on the last:
 
 Next: turn the computed result into an interpretation — [Module 06](../06-spatial-insight/).
 接下來：把運算結果轉譯為詮釋——[模組 06](../06-spatial-insight/)。
+
+## Want the real-data version? 想看真實資料版本？
+
+[`case-studies/01-green-coverage-grid/`](../../case-studies/01-green-coverage-grid/) runs this exact pipeline on real Taipei street-tree data instead of the sample above — no registration required. Good as a live instructor demo or as your dataset for [Module 08 — One Map Challenge](../../exercises/04_one_map_challenge/).
+[`case-studies/01-green-coverage-grid/`](../../case-studies/01-green-coverage-grid/) 使用真實的台北市行道樹資料執行完全相同的流程，取代上方的範例資料——無需申請帳號。適合作為教師現場示範，或作為[模組 08——一張地圖挑戰](../../exercises/04_one_map_challenge/)的資料集。
+
+Want to go further? [`case-studies/02-urban-heat-interpolation/`](../../case-studies/02-urban-heat-interpolation/) introduces spatial interpolation (a new operation beyond buffer/join) as an advanced, self-paced extension. See [`case-studies/README.md`](../../case-studies/README.md).
+想深入研究？[`case-studies/02-urban-heat-interpolation/`](../../case-studies/02-urban-heat-interpolation/) 介紹空間內插（超越緩衝區／join 的新運算），作為進階自學延伸。詳見 [`case-studies/README.md`](../../case-studies/README.md)。

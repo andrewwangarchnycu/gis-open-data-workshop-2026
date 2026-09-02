@@ -58,6 +58,9 @@ Every step: **Tool → Spatial Meaning → Research Question**. Reference: [`qgi
 | 15–18 | Calculate a metric (e.g. count of trees per public space). |
 | 18–20 | Visualize with Matplotlib. |
 
+If time and group comfort allow, swap step 10–18 for [`case-studies/01-green-coverage-grid/`](../case-studies/01-green-coverage-grid/), which runs the same pipeline on real Taipei tree data (no registration needed) — a stronger "this is real" moment than the abstract sample, at the cost of a less predictable dataset shape.
+若時間與班級狀況允許，10–18 分鐘的步驟可換成 [`case-studies/01-green-coverage-grid/`](../case-studies/01-green-coverage-grid/)，以真實台北樹木資料執行相同流程（無需申請帳號）——比抽象範例更有「這是真的」的說服力，但資料形狀較不可預期。
+
 Reference: [`notebooks/`](../notebooks/) and [`lessons/05-computational-gis/`](../lessons/05-computational-gis/)
 
 ## 06 — From Data to Spatial Insight (15 min)

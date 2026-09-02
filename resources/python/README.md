@@ -64,6 +64,35 @@ gdf.plot(ax=ax, column="value", cmap="Greens", legend=True)
 plt.show()
 ```
 
+## Chinese text in charts 圖表中顯示中文
+
+Colab's default Matplotlib font (DejaVu Sans) can't render Chinese characters — they show up as boxes (□). All notebooks in this repo keep plot titles/legends in English for this reason. If you want Chinese text inside a chart itself, install a CJK font first:
+
+Colab 預設的 Matplotlib 字型（DejaVu Sans）無法顯示中文，會變成方框（□）。本專案所有筆記本因此將圖表標題／圖例保持英文。若想在圖表內顯示中文，請先安裝支援中文的字型：
+
+```python
+# Run once per Colab session, before plotting 每個 Colab 工作階段執行一次，繪圖前執行
+!apt-get -qq install fonts-noto-cjk > /dev/null
+import matplotlib.pyplot as plt
+plt.rcParams["font.sans-serif"] = ["Noto Sans CJK TC"]
+plt.rcParams["axes.unicode_minus"] = False  # keep minus signs rendering correctly 確保負號正常顯示
+```
+
+## Point interpolation (IDW) 點狀資料內插
+
+Used in [`case-studies/02-urban-heat-interpolation/`](../../case-studies/02-urban-heat-interpolation/) to turn scattered point measurements into a continuous surface — the computational equivalent of QGIS's Heatmap/IDW tool.
+
+用於[`case-studies/02-urban-heat-interpolation/`](../../case-studies/02-urban-heat-interpolation/)，將離散點狀測量值轉換為連續空間場——相當於 QGIS Heatmap／IDW 工具的程式碼版本。
+
+```python
+from scipy.interpolate import griddata
+import numpy as np
+
+grid_x, grid_y = np.mgrid[lon_min:lon_max:200j, lat_min:lat_max:200j]
+surface = griddata(points=np.column_stack([lons, lats]), values=measurements,
+                    xi=(grid_x, grid_y), method="linear")
+```
+
 ## Full worked examples 完整範例
 
 See [`notebooks/`](../../notebooks/) for these patterns combined into complete pipelines.

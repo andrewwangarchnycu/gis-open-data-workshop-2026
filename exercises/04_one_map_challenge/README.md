@@ -21,6 +21,9 @@ Possible datasets 可能資料集: trees, buildings, public spaces, roads 樹木
 
 Possible analysis 可能分析: tree density within public spaces 公共空間內的樹木密度
 
+**Want to skip straight to real data?** [`case-studies/01-green-coverage-grid/`](../../case-studies/01-green-coverage-grid/) runs this exact example on real Taipei street-tree data, no registration required — a ready-made starting point if you'd rather adapt real data than build your own sample.
+**想直接使用真實資料？** [`case-studies/01-green-coverage-grid/`](../../case-studies/01-green-coverage-grid/) 以真實的台北市行道樹資料執行這個範例，無需申請帳號——若你想直接調整真實資料而非自建範例，這是現成的起點。
+
 ## Steps 步驟
 
 1. **Question** — reuse or refine your question from [Exercise 01](../01_data_exploration/). 沿用或精煉[練習 01](../01_data_exploration/)中的問題。

@@ -89,6 +89,7 @@ mapping-unknown/
 ├── lessons/            01–07 teaching modules 教學模組
 ├── notebooks/          Colab-ready Python notebooks Colab 筆記本
 ├── qgis/                QGIS step-by-step guides QGIS 操作教學
+├── case-studies/    real Taiwan open-data walkthroughs (extension) 真實台灣開放資料案例研究（延伸）
 ├── data/                 raw / processed sample data 範例資料
 ├── scripts/            download / preprocessing / analysis helpers 輔助腳本
 ├── exercises/         hands-on exercises 實作練習
@@ -166,7 +167,22 @@ Repository: [github.com/andrewwangarchnycu/gis-open-data-workshop-2026](https://
 
 ---
 
-## 8. The One Map Challenge 一張地圖挑戰
+## 8. Case studies: real Taiwan open data 案例研究：真實台灣開放資料
+
+The core notebooks above use small hand-made sample data on purpose, so the 2-hour session never stalls on a registration form or a network hiccup. [`case-studies/`](case-studies/) swaps in **real datasets and real APIs** for learners who want to go further:
+上方核心筆記本刻意使用小型手造範例資料，讓 2 小時課程不會卡在註冊表單或網路問題上。[`case-studies/`](case-studies/) 則為想進一步鑽研的學習者換上**真實資料集與真實 API**：
+
+| Case study 案例 | Question 問題 | Data 資料 | Registration 註冊門檻 |
+|---|---|---|---|
+| [01 — Green Coverage Grid](case-studies/01-green-coverage-grid/) 綠覆率網格化 | Where does tree coverage cluster in Taipei? 台北市樹木覆蓋密集於何處？ | data.taipei street trees 台北市行道樹資料 | None 無 |
+| [02 — Urban Heat Interpolation](case-studies/02-urban-heat-interpolation/) 都市氣溫熱力圖 | How does temperature vary across the city? 全市氣溫如何變化？ | Open-Meteo API | None 無 |
+
+Case Study 01 is the **recommended real-data option** for [Lesson 05](lessons/05-computational-gis/)'s live demo and the [One Map Challenge](exercises/04_one_map_challenge/) below. See [`case-studies/README.md`](case-studies/README.md) for guidance on which one fits which use case.
+案例一是[課程 05](lessons/05-computational-gis/)現場示範與下方[一張地圖挑戰](exercises/04_one_map_challenge/)**建議採用的真實資料選項**。各案例適用情境請見 [`case-studies/README.md`](case-studies/README.md)。
+
+---
+
+## 9. The One Map Challenge 一張地圖挑戰
 
 Every learner produces, in one final graphic:
 每位學習者最終產出一張圖，包含：
@@ -184,7 +200,7 @@ See [`exercises/04_one_map_challenge/`](exercises/04_one_map_challenge/).
 
 ---
 
-## 9. Research map design principles 研究地圖設計原則
+## 10. Research map design principles 研究地圖設計原則
 
 A research map is evidence for an argument, not decoration. It should look like an **analytical diagram**, not a raw GIS screenshot.
 研究地圖是論證的證據，不是裝飾。它應該看起來像一張**分析圖表**，而不是 GIS 軟體的原始截圖。
@@ -201,7 +217,7 @@ Core topics — see [`resources/map-design/`](resources/map-design/):
 
 ---
 
-## 10. Research case: flexible urban/public-space layers 研究案例：彈性的都市／公共空間圖層
+## 11. Research case: flexible urban/public-space layers 研究案例：彈性的都市／公共空間圖層
 
 This workshop is **not** hard-coded around any single topic (e.g. thermal comfort). It uses a flexible set of urban/environmental layers — building footprints, trees, green spaces, roads, public spaces, land use, elevation — that transfer to many research directions:
 本工作坊**不**綁定單一主題（例如熱舒適度）。它使用一組彈性的都市／環境圖層 — 建築足跡、樹木、綠地、道路、公共空間、土地利用、高程 — 可延伸至多種研究方向：
@@ -216,7 +232,7 @@ This workshop is **not** hard-coded around any single topic (e.g. thermal comfor
 
 ---
 
-## 11. Repository quality standard 專案品質標準
+## 12. Repository quality standard 專案品質標準
 
 This repository prioritizes, in order:
 本專案的優先順序：
