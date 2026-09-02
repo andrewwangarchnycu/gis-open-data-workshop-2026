@@ -15,6 +15,8 @@ All coding in this workshop happens in **Google Colab** — nothing to install l
 | `geopandas` | Spatial data — pandas + geometry 空間資料——pandas 加上幾何 |
 | `shapely` | Geometry objects and operations 幾何物件與運算 |
 | `matplotlib` | Visualization 視覺化 |
+| `contextily` | Real basemap tiles under a matplotlib plot 於 matplotlib 圖層下方加入真實底圖 |
+| `folium` | Interactive, pannable/zoomable maps 互動式、可平移縮放的地圖 |
 | `osmnx` (when needed 需要時) | Download OpenStreetMap data directly 直接下載 OpenStreetMap 資料 |
 
 ## The workflow 工作流程
@@ -73,6 +75,9 @@ plt.show()
 
 Every step maps back to a QGIS operation you already understand — `buffer()` is the Buffer tool, `.intersects()` is Spatial Join/Intersection logic, `.plot()` is Symbology.
 每個步驟都對應到你已理解的 QGIS 操作——`buffer()` 對應緩衝區工具，`.intersects()` 對應空間 Join／交集邏輯，`.plot()` 對應符號化。
+
+A plain `.plot()` draws colored shapes on white space — it doesn't yet read as a *map*. `notebooks/` and `case-studies/` add a real basemap under it with `contextily` (static) or build a pannable/clickable version with `folium` (interactive) — see [`resources/python/`](../../resources/python/#map-visualization-basemap--interactive-maps) for both patterns.
+單純的 `.plot()` 只是在空白背景上畫幾個色塊，還不算是一張「地圖」。`notebooks/` 與 `case-studies/` 會用 `contextily` 在其下方加入真實底圖（靜態），或用 `folium` 做成可平移點擊的版本（互動式）——兩種寫法見 [`resources/python/`](../../resources/python/#map-visualization-basemap--interactive-maps)。
 
 ## Hands-on notebooks 實作筆記本
 

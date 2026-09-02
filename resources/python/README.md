@@ -64,6 +64,48 @@ gdf.plot(ax=ax, column="value", cmap="Greens", legend=True)
 plt.show()
 ```
 
+## Map visualization: basemap & interactive maps 地圖視覺化：底圖與互動式地圖
+
+A plot of colored shapes on white space doesn't read as a place. Two ways to fix that, used throughout [`notebooks/`](../../notebooks/) and [`case-studies/`](../../case-studies/):
+在空白背景上畫幾個色塊，看起來不像一個真實地點。以下兩種方法可以解決這個問題，貫穿於 [`notebooks/`](../../notebooks/) 與 [`case-studies/`](../../case-studies/) 之中：
+
+### Static basemap with `contextily` 靜態底圖（`contextily`）
+
+Adds real street/building tiles underneath a normal `.plot()` — works with any CRS, since `contextily` reprojects the tiles to match your data.
+在一般的 `.plot()` 圖層下方加入真實街道／建築底圖——可搭配任何 CRS，`contextily` 會自動將圖磚重新投影以對齊你的資料。
+
+```python
+import contextily as cx
+
+fig, ax = plt.subplots(figsize=(7, 7))
+gdf.plot(ax=ax, column="value", cmap="Greens", alpha=0.75, legend=True)
+cx.add_basemap(ax, crs=gdf.crs.to_string(), source=cx.providers.CartoDB.Positron)
+ax.set_axis_off()
+plt.show()
+```
+
+> Keep `alpha < 1` on your data layer so the basemap underneath stays visible. 資料圖層的 `alpha` 建議小於 1，讓底下的底圖仍然可見。
+
+### Interactive map with `folium` 互動式地圖（`folium`）
+
+Best for *exploring* data — pan, zoom, click a feature for its attributes. Renders directly inline in a Colab cell (based on Leaflet.js), pre-installed in Colab.
+最適合用於**探索**資料——可平移、縮放，點擊要素查看屬性。可直接於 Colab 儲存格中呈現（基於 Leaflet.js），Colab 已預先安裝。
+
+```python
+import folium
+
+center = [gdf.geometry.centroid.y.mean(), gdf.geometry.centroid.x.mean()]
+m = folium.Map(location=center, zoom_start=15, tiles="OpenStreetMap")
+folium.GeoJson(
+    gdf,
+    tooltip=folium.GeoJsonTooltip(fields=["name"]),
+).add_to(m)
+m  # displays inline in Colab / Jupyter 於 Colab／Jupyter 中直接顯示
+```
+
+For point data colored by a numeric value (e.g. temperature), use `folium.CircleMarker` per row with a `branca.colormap` scale instead of `GeoJson` — see [`case-studies/02-urban-heat-interpolation/`](../../case-studies/02-urban-heat-interpolation/).
+若為依數值上色的點資料（例如溫度），可改用逐列的 `folium.CircleMarker` 搭配 `branca.colormap` 色階，而非 `GeoJson`——參見 [`case-studies/02-urban-heat-interpolation/`](../../case-studies/02-urban-heat-interpolation/)。
+
 ## Chinese text in charts 圖表中顯示中文
 
 Colab's default Matplotlib font (DejaVu Sans) can't render Chinese characters — they show up as boxes (□). All notebooks in this repo keep plot titles/legends in English for this reason. If you want Chinese text inside a chart itself, install a CJK font first:

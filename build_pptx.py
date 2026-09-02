@@ -31,15 +31,16 @@ def set_notes(slide, text):
     slide.notes_slide.notes_text_frame.text = text
 
 
-def add_footer(slide, module_no=None, minutes=None, label=None):
+def add_footer(slide, module_no=None, minutes=None, label=None, left_text=None, color=None):
     _slide_no[0] += 1
-    box = slide.shapes.add_textbox(Inches(0.5), SH - Inches(0.45), Inches(6), Inches(0.35))
+    text_color = color or GREY
+    box = slide.shapes.add_textbox(Inches(0.5), SH - Inches(0.45), Inches(6.8), Inches(0.35))
     tf = box.text_frame
     p = tf.paragraphs[0]
     r = p.add_run()
-    r.text = "Mapping the Unknown · 探索未知空間"
+    r.text = left_text or "Mapping the Unknown · 探索未知空間"
     r.font.size = Pt(10)
-    r.font.color.rgb = GREY
+    r.font.color.rgb = text_color
 
     if label:
         box2 = slide.shapes.add_textbox(Inches(9.5), SH - Inches(0.45), Inches(3.2), Inches(0.35))
@@ -50,7 +51,7 @@ def add_footer(slide, module_no=None, minutes=None, label=None):
         r2 = p2.add_run()
         r2.text = label
         r2.font.size = Pt(10)
-        r2.font.color.rgb = GREY
+        r2.font.color.rgb = text_color
 
     numbox = slide.shapes.add_textbox(SW - Inches(0.9), SH - Inches(0.45), Inches(0.6), Inches(0.35))
     ntf = numbox.text_frame
@@ -59,7 +60,7 @@ def add_footer(slide, module_no=None, minutes=None, label=None):
     nr = np.add_run()
     nr.text = str(_slide_no[0])
     nr.font.size = Pt(10)
-    nr.font.color.rgb = GREY
+    nr.font.color.rgb = text_color
 
 
 def bg(slide, color):
@@ -132,7 +133,7 @@ def add_content_slide(kicker, title_en, title_zh, bullets, notes, module_no=None
     if diagram:
         diagram(slide)
 
-    label = f"Module {module_no:02d}/{TOTAL_MODULES} · {minutes} min" if module_no else None
+    label = f"Module {module_no:02d}/{TOTAL_MODULES}" if module_no else None
     add_footer(slide, module_no, minutes, label)
     set_notes(slide, notes)
     return slide
@@ -200,7 +201,7 @@ def draw_geometry_diagram(slide):
     # Attributes — a mini table icon
     y4 = Inches(5.65)
     tbl_w, tbl_h = Inches(1.0), Inches(0.62)
-    tbl_x, tbl_y = icon_cx - tbl_w / 2, y4 + Inches(0.05)
+    tbl_x, tbl_y = Emu(int(icon_cx - tbl_w / 2)), Emu(int(y4 + Inches(0.05)))
     tbl = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, tbl_x, tbl_y, tbl_w, tbl_h)
     tbl.fill.solid()
     tbl.fill.fore_color.rgb = WHITE
@@ -208,12 +209,14 @@ def draw_geometry_diagram(slide):
     tbl.line.width = Pt(1.25)
     tbl.shadow.inherit = False
     for gx in (1, 2):
-        gl = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, tbl_x + tbl_w * gx / 3, tbl_y,
-                                         tbl_x + tbl_w * gx / 3, tbl_y + tbl_h)
+        gx_pos = Emu(int(tbl_x + tbl_w * gx / 3))
+        gl = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, gx_pos, tbl_y,
+                                         gx_pos, Emu(int(tbl_y + tbl_h)))
         gl.line.color.rgb = NAVY
         gl.line.width = Pt(0.75)
-    gl2 = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, tbl_x, tbl_y + tbl_h / 3,
-                                      tbl_x + tbl_w, tbl_y + tbl_h / 3)
+    gy_pos = Emu(int(tbl_y + tbl_h / 3))
+    gl2 = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, tbl_x, gy_pos,
+                                      Emu(int(tbl_x + tbl_w)), gy_pos)
     gl2.line.color.rgb = NAVY
     gl2.line.width = Pt(0.75)
     row_label(y4, "Attributes — id, height, use", "屬性——編號、高度、用途")
@@ -247,14 +250,7 @@ def add_divider(module_no, title_en, title_zh, minutes, focus_en, focus_zh, note
     r2.font.size = Pt(22)
     r2.font.color.rgb = RGBColor(0xC9, 0xD3, 0xE0)
 
-    mb = slide.shapes.add_textbox(Inches(0.7), Inches(4.5), Inches(11.9), Inches(0.5))
-    mp = mb.text_frame.paragraphs[0]
-    mr = mp.add_run()
-    mr.text = f"{minutes} minutes  ·  {minutes} 分鐘"
-    mr.font.size = Pt(16)
-    mr.font.color.rgb = ACCENT
-
-    fb = slide.shapes.add_textbox(Inches(0.7), Inches(5.2), Inches(11.9), Inches(1.4))
+    fb = slide.shapes.add_textbox(Inches(0.7), Inches(4.6), Inches(11.9), Inches(1.4))
     ftf = fb.text_frame
     ftf.word_wrap = True
     fp = ftf.paragraphs[0]
@@ -268,7 +264,7 @@ def add_divider(module_no, title_en, title_zh, minutes, focus_en, focus_zh, note
     fr2.font.size = Pt(13)
     fr2.font.color.rgb = RGBColor(0xC9, 0xD3, 0xE0)
 
-    label = f"Module {module_no:02d}/{TOTAL_MODULES} · {minutes} min"
+    label = f"Module {module_no:02d}/{TOTAL_MODULES}"
     add_footer(slide, module_no, minutes, label)
     set_notes(slide, notes)
     return slide
@@ -304,7 +300,12 @@ r4.text = "A 2-Hour Workshop for Architecture Graduates  ·  建築系畢業生�
 r4.font.size = Pt(15)
 r4.font.italic = True
 r4.font.color.rgb = RGBColor(0xC9, 0xD3, 0xE0)
-add_footer(s, label="Welcome · 歡迎")
+add_footer(
+    s,
+    left_text="國立陽明交通大學 建築研究所 資訊建築學研究室 碩士數位組 王誠安",
+    label="MSc Cheng-An Wang, GIAAIL @NYCU",
+    color=WHITE,
+)
 set_notes(s,
     "Welcome learners. Introduce yourself briefly. State the two-hour arc up front: "
     "we move from a research question, through open data and GIS, to a designed research map. "
@@ -332,25 +333,91 @@ add_content_slide(
 )
 
 # ---------------------------------------------------------------
-# 2. Agenda
+# 2. Agenda — dedicated two-column layout (8 items don't fit one column)
 # ---------------------------------------------------------------
-add_content_slide(
-    "Agenda · 議程", "2-Hour Schedule", "兩小時課程時程",
+def add_agenda_slide(kicker, title_en, title_zh, items, notes):
+    """items: list of (num_str, en_title, zh_title) — no time text, laid out
+    as two columns of four so nothing overflows the slide."""
+    slide = prs.slides.add_slide(BLANK)
+    bg(slide, WHITE)
+
+    kb = slide.shapes.add_textbox(Inches(0.6), Inches(0.35), Inches(11.5), Inches(0.4))
+    kp = kb.text_frame.paragraphs[0]
+    kr = kp.add_run()
+    kr.text = kicker
+    kr.font.size = Pt(14)
+    kr.font.bold = True
+    kr.font.color.rgb = ACCENT
+
+    tb = slide.shapes.add_textbox(Inches(0.6), Inches(0.75), Inches(12.1), Inches(1.15))
+    tf = tb.text_frame
+    tf.word_wrap = True
+    p = tf.paragraphs[0]
+    r = p.add_run()
+    r.text = title_en
+    r.font.size = Pt(30)
+    r.font.bold = True
+    r.font.color.rgb = NAVY
+    p2 = tf.add_paragraph()
+    r2 = p2.add_run()
+    r2.text = title_zh
+    r2.font.size = Pt(16)
+    r2.font.color.rgb = GREY
+
+    line = slide.shapes.add_shape(1, Inches(0.6), Inches(1.95), Inches(12.1), Pt(2))
+    line.fill.solid()
+    line.fill.fore_color.rgb = ACCENT
+    line.line.fill.background()
+    line.shadow.inherit = False
+
+    col_w = Inches(5.85)
+    col_x = [Inches(0.6), Inches(6.85)]
+    row_h = Inches(1.14)
+    top = Inches(2.3)
+    half = (len(items) + 1) // 2
+    columns = [items[:half], items[half:]]
+
+    for ci, col_items in enumerate(columns):
+        for ri, (num, en, zh) in enumerate(col_items):
+            y = top + row_h * ri
+            box = slide.shapes.add_textbox(col_x[ci], y, col_w, row_h)
+            btf = box.text_frame
+            btf.word_wrap = True
+            bp = btf.paragraphs[0]
+            br = bp.add_run()
+            br.text = f"{num}   {en}"
+            br.font.size = Pt(18)
+            br.font.bold = True
+            br.font.color.rgb = NAVY
+            bp2 = btf.add_paragraph()
+            br2 = bp2.add_run()
+            br2.text = "        " + zh
+            br2.font.size = Pt(13)
+            br2.font.italic = True
+            br2.font.color.rgb = GREY
+
+    add_footer(slide, label=None)
+    set_notes(slide, notes)
+    return slide
+
+
+add_agenda_slide(
+    "Agenda · 議程", "Workshop Schedule", "工作坊課程時程",
     [
-        ("01  Mapping the Unknown — 10 min", "探索未知空間", 0),
-        ("02  From Space to Data — 15 min", "從空間到資料", 0),
-        ("03  Finding Open Geospatial Data — 15 min", "尋找開放地理資料", 0),
-        ("04  QGIS Basics — 20 min", "QGIS 基礎", 0),
-        ("05  Computational GIS with Google Colab — 20 min", "使用 Google Colab 的運算式 GIS", 0),
-        ("06  From Data to Spatial Insight — 15 min", "從資料到空間洞察", 0),
-        ("07  Research Map Design — 20 min", "研究地圖設計", 0),
-        ("08  One Map Challenge — 5 min", "一張地圖挑戰", 0),
+        ("01", "Mapping the Unknown", "探索未知空間"),
+        ("02", "From Space to Data", "從空間到資料"),
+        ("03", "Finding Open Geospatial Data", "尋找開放地理資料"),
+        ("04", "QGIS Basics", "QGIS 基礎"),
+        ("05", "Computational GIS with Google Colab", "使用 Google Colab 的運算式 GIS"),
+        ("06", "From Data to Spatial Insight", "從資料到空間洞察"),
+        ("07", "Research Map Design", "研究地圖設計"),
+        ("08", "One Map Challenge", "一張地圖挑戰"),
     ],
-    "Read the agenda aloud once so learners can pace themselves. Mention that modules 01-03 are "
+    "Read the agenda aloud once so learners can see the whole arc. Mention that modules 01-03 are "
     "conceptual (no software yet), 04-05 are hands-on (QGIS then Colab), 06-07 turn results into "
     "communication, and 08 is the graded deliverable. Point out this slide's structure repeats as a "
-    "divider before every module, so learners always know where they are in the two hours. "
-    "唸過一次議程讓學員掌握節奏。模組 01-03 是概念性、尚未動手；04-05 動手操作（先 QGIS 後 Colab）；"
+    "divider before every module, so learners always know where they are in the workshop. "
+    "唸過一次議程讓學員看見整體路徑。模組 01-03 是概念性、尚未動手；04-05 動手操作（先 QGIS 後 Colab）；"
     "06-07 把結果轉化為溝通；08 為最終評量產出。之後每個模組前都會有相同格式的分隔頁，讓學員隨時知道進度。",
 )
 
